@@ -29,16 +29,20 @@ char* formatDateTime(const time_t mytime) {
 }
 
 time_t newDateTime(const int year, const int month, const int date, const int hrs, const int min, const int sec) {
-	time_t mytime;
-	struct tm myDate = { 0 };
-	myDate.tm_mday = date;
-	myDate.tm_mon = month - 1;
-	myDate.tm_year = year - 1900;
-	myDate.tm_hour = hrs;
-	myDate.tm_min = min;
-	myDate.tm_sec = sec;
-	mytime = mktime(&myDate);
-	return mytime;
+	time_t time;
+	struct tm tmStruct = { 0 };
+	tmStruct.tm_mday = date;
+	tmStruct.tm_mon = month - 1;
+	tmStruct.tm_year = year - 1900;
+	tmStruct.tm_hour = hrs;
+	tmStruct.tm_min = min;
+	tmStruct.tm_sec = sec;
+	time = mktime(&tmStruct);
+	if (time == -1) {
+		printf("Data non supportata.");
+		exit(1);
+	}
+	return time;
 }
 
 time_t newDate(const int year, const int month, const int date) {
