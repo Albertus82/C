@@ -68,16 +68,20 @@ void dataStruct() {
 }
 
 void modificaData() {
-	struct tm mydate;
+	struct tm tmStruct;
 	time_t dataDaModificare;
 	time_t dataModificata;
 
 	dataDaModificare = newDateTime(1990, 11, 12, 14, 10, 55);
 	printf("Data da modificare: %s\n", formatDateTime(dataDaModificare));
 
-	mydate = *localtime(&dataDaModificare);
-	mydate.tm_mon += 14;
-	dataModificata = mktime(&mydate);
+	tmStruct = *localtime(&dataDaModificare);
+	tmStruct.tm_mon -= 104;
+	dataModificata = mktime(&tmStruct);
+	if (dataModificata == -1) {
+		printf("Data non supportata.");
+		exit(1);
+	}
 	printf("Data modificata: %s\n", formatDateTime(dataModificata));
 }
 
