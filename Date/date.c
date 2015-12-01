@@ -4,41 +4,62 @@
 #include <ctype.h>
 #include <time.h>
 
-typedef struct tm* Date;
-
 struct utente {
 	char username[20];
 	char cognome[50];
 	char nome[50];
 	char email[100];
-	Date dataNascita;
+	time_t dataNascita;
 };
 typedef struct utente* Utente;
 
-char* formatDate(const Date date) {
+char* formatDate(const time_t mytime) {
 	char* dateStr = malloc(11 * sizeof(char));
-	sprintf(dateStr, "%.2d/%.2d/%4d", date->tm_mday, date->tm_mon + 1, date->tm_year + 1900);
+	struct tm date = *localtime(&mytime);
+	sprintf(dateStr, "%.2d/%.2d/%4d", date.tm_mday, date.tm_mon + 1, date.tm_year + 1900);
 	return dateStr;
 }
 
-Date newDate(const int day, const int month, const int year) {
-	Date date = malloc(sizeof(struct tm));
-	date->tm_mday = day;
-	date->tm_mon = month - 1;
-	date->tm_year = year - 1900;
-	date->tm_hour = 0;
-	date->tm_min = 0;
-	date->tm_sec = 0;
-	return date;
+char* formatDateTime(const time_t mytime) {
+	char* dateTimeStr = malloc(20 * sizeof(char));
+	struct tm date = *localtime(&mytime);
+	sprintf(dateTimeStr, "%.2d/%.2d/%4d %.2d:%.2d:%.2d", date.tm_mday, date.tm_mon + 1, date.tm_year + 1900, date.tm_hour, date.tm_min, date.tm_sec);
+	return dateTimeStr;
 }
 
-int main(void) {
+time_t newDate(const int year, const int month, const int date) {
+	struct tm myDate = { 0 };
+	myDate.tm_mday = date;
+	myDate.tm_mon = month - 1;
+	myDate.tm_year = year - 1900;
+	time_t mytime = mktime(&myDate);
+	return mytime;
+}
 
-	time_t timer;
-	Date date;
+time_t newDateTime(const int year, const int month, const int date, const int hrs, const int min, const int sec) {
+	struct tm myDate = { 0 };
+	myDate.tm_mday = date;
+	myDate.tm_mon = month - 1;
+	myDate.tm_year = year - 1900;
+	myDate.tm_hour = hrs;
+	myDate.tm_min = min;
+	myDate.tm_sec = sec;
+	time_t mytime = mktime(&myDate);
+	return mytime;
+}
 
+void modificaData() {
+	time_t dataDaModificare = newDateTime(1990, 11, 12, 14, 10, 55);
+	printf("Data da modificare: %s\n", formatDateTime(dataDaModificare));
+
+	struct tm mydate = *localtime(&dataDaModificare);
+	mydate.tm_mon += 14;
+	time_t dataModificata = mktime(&mydate);
+	printf("Data modificata: %s\n", formatDateTime(dataModificata));
+}
+
+void dataStruct() {
 	Utente utente = malloc(sizeof(struct utente));
-
 	if (utente == NULL) {
 		printf("Memoria insufficiente.\n");
 		exit(1);
@@ -50,18 +71,13 @@ int main(void) {
 	strcpy(utente->nome, "Mario");
 	strcpy(utente->email, "mario.rossi@azienda.com");
 	strcpy(utente->username, "mario.rossi");
-	utente->dataNascita = newDate(12, 12, 1990);
+	utente->dataNascita = newDate(1980, 11, 12);
+	printf("%s, %s, %s, %s, %s\n", utente->cognome, utente->nome, utente->email, utente->username, formatDate(utente->dataNascita));
+}
 
-	/* Modifica di una data */
-	utente->dataNascita->tm_mday -= 3578;
-	timer = mktime(utente->dataNascita); // Da "struct tm" a long
-	date = localtime(&timer); // Da long a "struct tm"
-	free(utente->dataNascita);
-	utente->dataNascita = date; // Sovrascrive la vecchia data con la nuova
-
-	printf("%s, %s, %s, %s, %s\n", utente->cognome, utente->nome, utente->email, utente->username,
-			formatDate(utente->dataNascita));
-
+int main(void) {
+	dataStruct();
+	modificaData();
 	printf("Fine.\n");
 	return 0;
 }
