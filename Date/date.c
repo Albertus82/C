@@ -91,9 +91,3 @@ int main(void) {
 	printf("Fine.\n");
 	return 0;
 }
-// Test conflitto ####
-// AASDSADA
-<<<<<<< HEAD
-/* conflitto */
-=======
->>>>>>> branch 'master' of https://github.com/Albertus82/C.git
