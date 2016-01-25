@@ -91,4 +91,8 @@ int main(void) {
 	printf("Fine.\n");
 	return 0;
 }
+<<<<<<< HEAD
+// LOCAL
+=======
 // REMOTE
+>>>>>>> branch 'master' of https://github.com/Albertus82/C.git
