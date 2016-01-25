@@ -91,3 +91,6 @@ int main(void) {
 	printf("Fine.\n");
 	return 0;
 }
+
+/* Codice aggiuntivo 
+su piu' righe... */
