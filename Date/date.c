@@ -91,7 +91,3 @@ int main(void) {
 	printf("Fine.\n");
 	return 0;
 }
-
-// modifica 
-/* new code
-second line */
