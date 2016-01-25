@@ -91,9 +91,3 @@ int main(void) {
 	printf("Fine.\n");
 	return 0;
 }
-<<<<<<< HEAD
-// 1
-// 2
-=======
-//1
->>>>>>> branch 'master' of https://github.com/Albertus82/C.git
