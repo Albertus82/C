@@ -93,4 +93,7 @@ int main(void) {
 }
 // Test conflitto ####
 // AASDSADA
+<<<<<<< HEAD
 /* conflitto */
+=======
+>>>>>>> branch 'master' of https://github.com/Albertus82/C.git
